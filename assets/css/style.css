@@ -16227,8 +16227,19 @@ nav ul li a {
 }
 
 .bg-breadcrumb {
-  background-image: url(../images/banner/02.jpg);
+  background-image: url(../images/banner/01.jpg)
 }
+
+.bg-breadcrumb-service {
+  background-image: url(../images/about/22.jpg);
+  /* filter: brightness(80%); */
+}
+
+.bg-breadcrumb-contact {
+  background-image: url(../images/banner/bg.jpg);
+  /* filter: brightness(80%); */
+}
+
 
 .banner-one-swiper--wrapper-area .banner-main-wrapper-one .pre-title {
   transition-delay: 0.5s;
