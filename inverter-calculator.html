@@ -1,0 +1,703 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/index.css" />
+    <!-- <link rel="stylesheet" href="assets/css/style.css" /> -->
+
+
+    <style>
+    
+    .first-container {
+        background-image: url('https://www.elhadjseck.com/luminous-load-calculator/load icons/load icons/calculator.png');
+        background-size: 300px;
+        background-repeat: no-repeat;
+        background-position: right;
+    }
+    
+    .totalWatts-container {
+        background-color: yellow;
+        width: 47rem;
+        padding: 0rem;
+        align-items: center;
+        justify-content: space-evenly;
+        margin-top: -40px;
+        border: 10px solid white;
+        border-radius: 10px;
+    }
+        .form-group {
+            min-width: 500px;
+            margin-bottom: 1rem;
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            gap: 2px;
+        }
+    
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+    
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-family: inherit;
+            border: 1px solid #ccc;
+        }
+    
+        .form-group input::placeholder {
+            opacity: 0.5;
+        }
+    
+        .form-group input:focus {
+            outline: none;
+            border-color: #1778f2;
+        }
+    
+        .flip-in-ver-right {
+            -webkit-animation: flip-in-ver-right 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+            animation: flip-in-ver-right 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+        }
+    
+        @media (max-width: 600px) {
+    
+            .first-container {
+            height: 820px !important;
+        }
+    
+        .output-container {
+            align-items: center; 
+            justify-content: center;
+        }
+    
+        .totalWatts-container {
+            background-color: yellow;
+            width: 100%;
+            flex-wrap: wrap;
+            padding: 1rem;
+            align-items: center;
+            justify-content: space-evenly;
+            margin-top: 0px;
+            border: 10px solid white;
+            border-radius: 10px;
+        }
+    
+            .property-type_container {
+                display: grid;
+                grid-template-columns: 1fr;
+            }
+    
+            .usagePerDeviceHeading {
+                visibility: hidden !important;
+            }
+    
+            .wattsUsage {
+                visibility: hidden !important;
+            }
+    
+            .wouldRequireWrapper {
+                display: flex;
+                flex-wrap: wrap;
+            }
+    
+            .percentage-container {
+                padding: 0;
+            }
+    
+            .form-group {
+                min-width: 100% !important;
+                /* width: 100%; */
+            }
+    
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <div class="first-container" style="background-color: #0f57ad; height: 400px;">
+
+        <div class="lg-text-headline tw-text-center" style="color: white; padding-top: .5rem">Enter the appliance your inverter will power
+        </div>
+
+        <div class="tw-flex-none tw-self-stretch tw-h-8"></div>
+
+        <div class="lg-px-screen-edge-2 tw-flex tw-flex-col tw-justify-center tw-items-center tw-text-center">
+            <div class="lg-text-title2 tw-text-center lg-text-secondary-900" style="color: white;">Choose your property
+                type</div>
+            <div class="tw-flex-none tw-self-stretch tw-h-4"></div>
+            <div class="property-type_container tw-w-full tw-grid tw-grid-cols-3 tw-gap-2 lg:tw-max-w-[500px]">
+                <div>
+                    <div id="customBtn" style="display: block; text-align: left; color: white; padding-block: .5rem" class="property-name tw-text-secondary-900-dark">Custom</div>
+                    <button type="button" onclick="applyPropertyType(this)"
+                    style="background-color: white;" class="tw-w-full tw-rounded-lg tw-flex tw-items-center tw-gap-2 tw-py-3 tw-px-2 tw-group tw-duration-200 lg:tw-max-w-[10rem] lg-card"
+                    fdprocessedid="z1cuql">
+                    <div style="position: relative" class="tw-w-full tw-h-8 tw-p-1.5">
+                            <div style="position: absolute; left: -10px; top: -35px">
+                                <img
+                                    src="assets/images/custom.png"
+                                    class="dark:tw-invert-0 tw-invert-0" loading="lazy"
+                                    style="width: 7rem !important">
+                            </div>
+                    </div>
+                    <div id="customBtn" style="display: none;" class="property-name tw-text-secondary-900-dark">Custom</div>
+                </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+
+        var propertyTypes = {
+            '1 Bedroom': {
+                "Ceiling Fan": { quantity: 1, watts: 70 },
+                "Laptop": { quantity: 1, watts: 60 },
+                "LED Bulb": { quantity: 3, watts: 10 },
+                "Phone Charger": { quantity: 2, watts: 5 },
+                "Fridge": { quantity: 1, watts: 150 },
+                "Washing Machine": { quantity: 0, watts: 400 },
+                "AC (Air Conditioner)": { quantity: 0, watts: 1500 },
+                "Desktop": { quantity: 0, watts: 300 },
+                "65’’ TV": { quantity: 0, watts: 125 },
+            },
+            '2 Bedrooms': {
+                "Ceiling Fan": { quantity: 2, watts: 70 },
+                "Laptop": { quantity: 2, watts: 60 },
+                "LED Bulb": { quantity: 4, watts: 10 },
+                "Phone Charger": { quantity: 2, watts: 5 },
+                "Fridge": { quantity: 1, watts: 150 },
+                "Freezer": { quantity: 1, watts: 200 },
+                "65’’ TV": { quantity: 1, watts: 120 },
+                "Washing Machine": { quantity: 0, watts: 400 },
+                "AC (Air Conditioner)": { quantity: 0, watts: 1500 },
+                "Desktop": { quantity: 0, watts: 300 },
+            },
+            '3 Bedrooms': {
+                "Ceiling Fan": { quantity: 3, watts: 70 },
+                "LED Bulb": { quantity: 6, watts: 10 },
+                "Fridge": { quantity: 1, watts: 150 },
+                "Freezer": { quantity: 1, watts: 200 },
+                "AC (Air Conditioner)": { quantity: 1, watts: 2000 },
+                "Laptop": { quantity: 2, watts: 60 },
+                "Desktop": { quantity: 1, watts: 200 },
+                "Phone Charger": { quantity: 3, watts: 5 },
+                "65’’ TV": { quantity: 2, watts: 120 },
+            },
+            '4 Bedrooms': {
+                "Ceiling Fan": { quantity: 4, watts: 70 },
+                "LED Bulb": { quantity: 8, watts: 10 },
+                "Fridge": { quantity: 1, watts: 150 },
+                "Freezer": { quantity: 1, watts: 200 },
+                "AC (Air Conditioner)": { quantity: 2, watts: 2000 },
+                "Laptop": { quantity: 3, watts: 60 },
+                "Desktop": { quantity: 2, watts: 200 },
+                "Phone Charger": { quantity: 4, watts: 5 },
+                "65’’ TV": { quantity: 2, watts: 120 },
+                "Washing Machine": { quantity: 1, watts: 500 }
+            },
+            'Villa': {
+                "Ceiling Fan": { quantity: 6, watts: 70 },
+                "LED Bulb": { quantity: 12, watts: 10 },
+                "Fridge": { quantity: 2, watts: 150 },
+                "Freezer": { quantity: 2, watts: 200 },
+                "AC (Air Conditioner)": { quantity: 4, watts: 2000 },
+                "Laptop": { quantity: 4, watts: 60 },
+                "Desktop": { quantity: 3, watts: 200 },
+                "Phone Charger": { quantity: 5, watts: 5 },
+                "65’’ TV": { quantity: 3, watts: 120 },
+                "Washing Machine": { quantity: 2, watts: 500 },
+                "Pumping Machine": { quantity: 1, watts: 1500 },
+                "CCTV Camera": { quantity: 4, watts: 40 }
+            }
+        }
+        const propertyButtonReturn = (property) => `
+        <div style="" onclick="applyPropertyType(this)">
+            <div class="property-name" style="display:block; text-align: left; color: white; padding-block: .5rem">${property[0]}</div>
+            <button type="button"
+             class="property-type-button tw-w-full tw-rounded-lg tw-flex tw-items-center tw-gap-2 tw-py-3 tw-px-2 tw-group tw-duration-200 lg:tw-max-w-[10rem] lg-card"
+            fdprocessedid="pfzf66">
+                <div style="position: relative" class="tw-rounded-full tw-p-1.5 tw-w-full tw-h-8">
+                        <div style="position: absolute; left: -10px; top: -30px">
+                            <img
+                                src="assets/images/icons/${property[0]}.png" class="dark:tw-invert-0 tw-invert" loading="lazy"
+                                style="width: 7rem !important">
+                        </div>
+                </div>
+            </button>
+        </div>`
+
+        for (let x of Object.entries(propertyTypes).reverse()) {
+
+            document.querySelector('.property-type_container').insertAdjacentHTML('afterbegin', propertyButtonReturn(x))
+        }
+
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+        });
+
+        document.addEventListener('click', event => {
+
+        })
+
+        const applyPropertyType = (el) => {
+
+            var overallWattsValue = document.getElementById('overallWattsValue')
+            overallWattsValue.innerText = '0 Watts'
+
+            const appContainer = document.getElementById('appliances-container');
+            appContainer.innerHTML = ""
+
+            // document.querySelector('.lg-bg-primary-500').classList.remove('lg-bg-primary-500')
+
+            // el.classList.add('lg-bg-primary-500')
+
+            // document.querySelector('.tw-bg-secondary-900-dark').classList.add('lg-bg-secondary-700')
+
+            // document.querySelector('.tw-bg-secondary-900-dark').classList.remove('tw-bg-secondary-900-dark')
+
+            document.querySelector('.tw-invert-0').classList.add('tw-invert')
+            document.querySelector('.tw-invert-0').classList.remove('tw-invert-0')
+
+            // el.querySelector('.tw-rounded-full').classList.add('tw-bg-secondary-900-dark')
+
+            el.querySelector('.tw-invert').classList.add('tw-invert-0')
+            el.querySelector('.tw-invert-0').classList.remove('tw-invert')
+
+            document.querySelector('.tw-text-secondary-900-dark').classList.remove('tw-text-secondary-900-dark')
+            el.querySelector('.property-name').classList.add('tw-text-secondary-900-dark')
+            initiliazeUsagePerDevice(el.querySelector('.property-name').id === 'customBtn' ? appliances : propertyTypes[el.querySelector('.property-name').innerText])
+
+        }
+    </script>
+
+    <!-- <div class="tw-flex-none tw-self-stretch tw-h-8"></div>
+
+    <div class="tw-flex-none tw-self-stretch tw-h-4"></div> -->
+
+    <div class="tw-w-full tw-relative">
+        <div class="tw-grid tw-grid-flow-col tw-auto-cols-[100%] tw-items-start">
+            <div class="lg-px-screen-edge-2 tw-flex tw-flex-col tw-justify-center tw-items-center tw-text-center">
+                <div class="tw-max-w-3xl tw-flex tw-flex-row tw-gap-x-2 lg-text-title2 totalWatts-container">
+                    <div style="font-weight: 900 !important; text-transform: uppercase; color: #12427d;">Total output
+                    </div>
+                    <div
+                        class="output-container"
+                        style="display: flex; flex-wrap: wrap; background-color: #12427d; border-radius: 20px 10px 10px 20px; margin-block: .7rem">
+                        <div style="display: flex; flex-direction: column; padding: .2rem 2.5rem">
+                            <p style="color: white; margin: 0 0 -6px 0; font-size: 12px;">Total watts is:</p>
+                            <span style="color: white;">Watts</span>
+                        </div>
+                        <div id="overallWattsValue"
+                            style="display: flex; align-items: center; color:#12427d; background-color: white; padding: .2rem 6rem; border-radius: 20px 10px 10px 20px;"
+                            class="lg-text-secondary-900">
+                            <span style="font-weight: bolder !important;">
+                                0 Watts
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="tw-flex-none tw-self-stretch tw-h-4"></div>
+                <div id="appliances-container"
+                    class="tw-w-full tw-max-w-3xl tw-grid tw-grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto_auto] tw-items-center tw-justify-center tw-gap-x-4 lg:tw-gap-x-8 tw-gap-y-4">
+                    <div class="lg-text-body tw-text-left tw-place-self-start">Device</div>
+                    <div class="lg-text-body tw-place-self-start tw-text-center tw-w-full usagePerDeviceHeading">Usage
+                        per device</div>
+                    <div class="lg-text-body tw-place-self-start tw-text-center tw-w-full">Qty</div>
+                    <div class="lg-text-body tw-place-self-start tw-text-center tw-w-full">Total</div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const appliances = {
+                "LED Bulb": { watts: 10 },
+                "LED Lamp": { watts: 20 },
+                "Ceiling Fan": { watts: 60 },
+                "Rechargeable Fan": { watts: 30 },
+                "Ox Fan": { watts: 70 },
+                "65’’ TV": { watts: 125 },
+                "CCTV Camera": { watts: 10 },
+                "Fridge": { watts: 150 },
+                "Freezer": { watts: 200 },
+                "AC (Air Conditioner)": { watts: 1500 },
+                "Laptop": { watts: 75 },
+                "Desktop": { watts: 300 },
+                "Phone Charger": { watts: 7 },
+                "Pumping Machine": { watts: 800 },
+                "Washing Machine": { watts: 400 }
+            };
+
+
+
+            const initiliazeUsagePerDevice = (appliances) => {
+
+
+                var overallWattsValue = document.getElementById('overallWattsValue')
+                overallWattsValue.innerText = '0 Watts'
+
+                for (let i in appliances) {
+                    const barWithBorder = document.createElement('div');
+                    const applianceName = document.createElement('div');
+                    const wattsCapacity = document.createElement('div');
+                    const quantityContainer = document.createElement('div');
+                    const minusButton = document.createElement('button');
+                    const plusButton = document.createElement('button');
+                    const quantity = document.createElement('div');
+                    const totalValue = document.createElement('div');
+
+                    barWithBorder.classList.add('tw-col-span-4', 'tw-border-b', 'tw-border-solid', 'tw-border-secondary-300-light', 'dark:tw-border-secondary-300-dark');
+                    applianceName.classList.add('tw-text-left');
+
+                    quantityContainer.classList.add('tw-flex', 'tw-flex-row', 'tw-gap-x-4', 'tw-items-center');
+
+                    minusButton.classList.add('tw-w-8', 'tw-h-8', 'lg-card', 'tw-rounded-lg', 'tw-flex', 'tw-flex-col', 'tw-items-center', 'tw-justify-center');
+                    plusButton.classList.add('tw-w-8', 'tw-h-8', 'lg-card', 'tw-rounded-lg', 'tw-flex', 'tw-flex-col', 'tw-items-center', 'tw-justify-center');
+                    wattsCapacity.classList.add('wattsUsage')
+
+                    applianceName.innerText = i;
+                    wattsCapacity.innerText = `${appliances[i].watts} Watts`;
+                    minusButton.innerText = '-';
+                    quantity.innerText = appliances[i].quantity || 1;
+                    plusButton.innerText = '+';
+                    totalValue.innerText = `${appliances[i].watts * Number(quantity.innerText)} Watts`;
+
+                    // Update the overallCostValue based on the totalValue per appliance
+                    overallWattsValue.innerText = `${Number(overallWattsValue.innerText.split(' ')[0]) + ((appliances[i].watts) * Number(quantity.innerText))} Watts`
+
+                    const appContainer = document.getElementById('appliances-container');
+                    +
+
+                        appContainer.appendChild(applianceName);
+                    appContainer.appendChild(wattsCapacity);
+
+                    quantityContainer.appendChild(minusButton);
+                    quantityContainer.appendChild(quantity);
+                    quantityContainer.appendChild(plusButton);
+
+                    appContainer.appendChild(quantityContainer);
+                    appContainer.appendChild(totalValue);
+                    appContainer.appendChild(barWithBorder);
+
+                    minusButton.addEventListener('click', (function (qty, watt, total) {
+                        return function () {
+                            const currentQty = Number(qty.innerText);
+                            if (currentQty > 0) {
+                                qty.innerText = currentQty - 1;
+                                total.innerText = `${(appliances[i].watts) * Number(qty.innerText)} Watts`;
+                                overallWattsValue.innerText = `${Number(overallWattsValue.innerText.split(' ')[0]) - (appliances[i].watts)} Watts`
+                            }
+                        };
+                    })(quantity, appliances[i].watts, totalValue));
+
+                    plusButton.addEventListener('click', (function (qty, watt, total) {
+                        return function () {
+                            qty.innerText = Number(qty.innerText) + 1;
+                            overallWattsValue.innerText
+                            total.innerText = `${(appliances[i].watts) * Number(qty.innerText)} Watts`;
+                            overallWattsValue.innerText = `${Number(overallWattsValue.innerText.split(' ')[0]) + (appliances[i].watts)} Watts`
+                        };
+                    })(quantity, (appliances[i].watts), totalValue));
+                }
+            }
+
+            initiliazeUsagePerDevice(appliances)
+
+        </script>
+
+        <script>
+            var overallWattsValue = document.getElementById('overallWattsValue')
+        </script>
+        <div class="tw-flex-none tw-self-stretch tw-h-8"></div>
+
+        <div class="lg-px-screen-edge-2">
+            <div class="wouldRequireWrapper tw-flex tw-flex-row tw-justify-center tw-items-center tw-gap-x-2">
+                <div class="tw-whitespace-nowrap">I would require</div>
+                <div class="tw-flex tw-flex-row">
+                    <button id="backupHoursMinus" type="button"
+                        class="tw-w-6 tw-h-8 lg-card tw-rounded-l-lg tw-flex tw-flex-col tw-items-center tw-justify-center"
+                        fdprocessedid="yyzesc">-</button>
+                    <input id="hoursOfBackup" disabled
+                        class="tw-w-12 tw-h-8 lg-bg-new-background-border-500 tw-text-center border-none" value="4"
+                        fdprocessedid="82z6j">
+                    <button id="backupHoursPlus" type="button"
+                        class="tw-w-6 tw-h-8 lg-card tw-rounded-r-lg tw-flex tw-flex-col tw-items-center tw-justify-center"
+                        fdprocessedid="vcitq">+</button>
+                </div>
+                <div class="tw-whitespace-nowrap">Hours of backup in a day</div>
+            </div>
+            <script>
+                var hoursOfBackup = document.getElementById('hoursOfBackup')
+                document.getElementById('backupHoursMinus').addEventListener('click', () => {
+                    if (hoursOfBackup.value > 4) {
+                        hoursOfBackup.value = hoursOfBackup.value - 2
+                    }
+                })
+
+                document.getElementById('backupHoursPlus').addEventListener('click', () => {
+                    hoursOfBackup.value = hoursOfBackup.value < 8 ? Number(hoursOfBackup.value) + 2 : hoursOfBackup.value
+                })
+            </script>
+
+            <div class="tw-flex-none tw-self-stretch tw-h-8"></div>
+            <div
+                class="percentage-container tw-flex-col tw-flex tw-max-w-3xl tw-w-full tw-mx-auto tw-p-4 tw-px-8 tw-pb-8 tw-place-self-center tw-justify-self-center">
+                <div class="tw-flex tw-flex-row tw-items-center tw-gap-x-2 tw-relative">
+                    <div class="tw-flex-none">Estimate the average % of appliance capacity running simultaneously </div>
+                    <div class="tw-h-4" data-headlessui-state=""><button type="button" class="border-none"
+                            aria-expanded="false" data-headlessui-state="" fdprocessedid="tl2vqb"
+                            id="headlessui-popover-button-:R59r935:"><svg xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon"
+                                class="tw-w-4 tw-h-4 tw-flex-none">
+                                <path fill-rule="evenodd"
+                                    d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-7-4a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM9 9a.75.75 0 0 0 0 1.5h.253a.25.25 0 0 1 .244.304l-.459 2.066A1.75 1.75 0 0 0 10.747 15H11a.75.75 0 0 0 0-1.5h-.253a.25.25 0 0 1-.244-.304l.459-2.066A1.75 1.75 0 0 0 9.253 9H9Z"
+                                    clip-rule="evenodd"></path>
+                            </svg></button></div>
+                    <div hidden=""
+                        style="position:fixed;top:1px;left:1px;width:1px;height:0;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border-width:0;display:none">
+                    </div>
+                    <div class="tw-flex-1 "></div>
+                    <div id="averageConsumptionPercentage" class="tw-flex-none lg-text-body-bold lg-text-secondary-900">
+                        50 %</div>
+                </div>
+                <div class="tw-flex-none tw-self-stretch tw-h-4"></div>
+                <div class="tw-grid tw-grid-cols-[3rem_minmax(0,1fr)_3rem] tw-items-center">
+                    <input id="averageConsumptionRange" type="range" step="25" min="25" max="100"
+                        class="tw-row-start-1 tw-col-start-1 tw-col-span-3 lg-range-input" value="50">
+                    <div class="tw-row-start-1 tw-col-start-1 tw-relative tw-top-4 lg-text-icon">25%</div>
+                    <div class="tw-row-start-1 tw-col-start-3 tw-justify-self-end tw-relative tw-top-4 lg-text-icon">
+                        100%
+                    </div>
+                </div>
+
+                <script>
+                    document.getElementById('averageConsumptionRange').addEventListener('input', (event) => {
+                        document.getElementById('averageConsumptionPercentage').innerText = `${event.target.value} %`
+                    })
+                </script>
+            </div>
+        </div>
+
+        <div class="tw-flex-none tw-self-stretch tw-h-8"></div>
+
+
+
+        <form method="POST" id="letsPlanForm" class="lg-px-screen-edge tw-flex tw-flex-col tw-items-center">
+            <div class="form-group" for="firstName">First Name</label>
+                <input style="width: 100%;
+                padding: 12px 16px;
+                border-radius: 6px;
+                font-family: inherit;
+                border: 1px solid #ccc;" type="text" id="firstName" name="firstName" style="margin-bottom: 1rem;"
+                    placeholder="Enter your firstname" required>
+                <label style="display: block; margin-bottom: 5px;" for="email">Email</label>
+                <input style="    width: 100%;
+                padding: 12px 16px;
+                border-radius: 6px;
+                font-family: inherit;
+                border: 1px solid #ccc;" type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+            <button id="letsPlanButton" type="submit" class=" lg-cta-button" fdprocessedid="4bfocb">Let's Plan</button>
+        </form>
+
+        <div class="tw-flex-none tw-self-stretch tw-h-8"></div>
+
+        <!-- /* From Uiverse.io by Admin12121 */ -->
+
+        <div id="plan-loader" class="loader margin-inline-auto mt-5">
+            <div class="box box0">
+                <div></div>
+            </div>
+            <div class="box box1">
+                <div></div>
+            </div>
+            <div class="box box2">
+                <div></div>
+            </div>
+            <div class="box box3">
+                <div></div>
+            </div>
+            <div class="box box4">
+                <div></div>
+            </div>
+            <div class="box box5">
+                <div></div>
+            </div>
+            <div class="box box6">
+                <div></div>
+            </div>
+            <div class="box box7">
+                <div></div>
+            </div>
+            <div class="ground">
+                <div></div>
+            </div>
+        </div>
+
+
+        <div class="card-container flip-in-ver-right">
+            <div class="card-header">
+                <h3 id="totalCapacityValue">993 Watts</h3>
+                <p>Total Capacity</p>
+            </div>
+            <div class="card-body">
+                <p id="inverterName">1500 VA</p>
+                <p id="numBatteries">2 batteries</p>
+            </div>
+            <div class="tw-text-center">
+                <img id="inverterImage" class="card-image"
+                    src="./Luminous Nigeria - Inverlast/Luminous Nigeria - Inverlast/Optimus 1100VA-12V.JPG"
+                    alt="Inverter">
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        const inverters = {
+            "900 VA / 12V": 720,
+            "Optimus 1100 VA / 12V": 880,
+            "Optimus 1600 VA / 24V": 1280,
+            "ECOVOLT 1.5 KVA / 12V": 1200,
+            "2.5 KVA / 24V": 2000,
+            "850 VA / 12V": 680,
+            "4 KVA / 48V": 3200,
+            "5 KVA / 48V": 4000,
+            "7.5 KVA / 120V": 6000,
+            "10 KVA / 180V": 8000,
+            "15 KVA / 240V": 12000
+        };
+
+        const invertersInverted = {
+            720: { name: "900 VA", volts: 12, image: '' },
+            880: { name: "Optimus 1100 VA", volts: 12, image: './Luminous Nigeria - Inverlast/Luminous Nigeria - Inverlast/Optimus 1100VA-12V.JPG' },
+            1280: { name: "Optimus 1600 VA", volts: 24, image: './Luminous Nigeria - Inverlast/Luminous Nigeria - Inverlast/Optimus 1600VA-12V.JPG' },
+            1200: { name: "ECOVOLT 1.5 KVA", volts: 12, image: './Luminous Nigeria - Inverlast/Luminous Nigeria - Inverlast/Eco Watt Rapid 1500VA-12V.JPG' },
+            2000: { name: "2.5 KVA Luminous Optimus", volts: 24, image: './Luminous Nigeria - Inverlast/Luminous Nigeria - Inverlast/2.5KVA LUMINOUS OPTIMUS.JPG' },
+            680: { name: "850 VA-12V SOLAR HYBRID", volts: 12, image: './Luminous Nigeria - Inverlast/Luminous Nigeria - Inverlast/850VA-12V SOLAR HYBRID.JPG' },
+            3200: { name: "4KVA-24V RAYVERTER SMART CONNECT", volts: 48, image: './Luminous Nigeria - Inverlast/Luminous Nigeria - Inverlast/4KVA-24V RAYVERTER SMART CONNECT.JPG' },
+            4000: { name: "5 KVA-48V RAYVERTER MAX BLE", volts: 48, image: './Luminous Nigeria - Inverlast/Luminous Nigeria - Inverlast/5KVA-48V RAYVERTER MAX BLE.JPG' },
+            6000: { name: "I-CRUZE 7.5 KVA", volts: 12, image: './Luminous Nigeria - Inverlast/Luminous Nigeria - Inverlast/I-CRUZE 7.5KVA-120V.JPG' },
+            8000: { name: "I-CRUZE 10 KVA", volts: 180, image: './Luminous Nigeria - Inverlast/Luminous Nigeria - Inverlast/I-CRUZE 10KVA-180V.JPG' },
+            12000: { name: "15 KVA-240V 3PHASE", volts: 240, image: './Luminous Nigeria - Inverlast/Luminous Nigeria - Inverlast/15KVA-240V 3PHASE.JPG' }
+        };
+
+        async function postForm(url, formBody) {
+
+            //const formData = new URLSearchParams(new FormData(formBody)); 
+
+            try {
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: new Headers({
+                        "Access-Control-Allow-Origin": "*",
+                        "Access-Control-Allow-Methods": "POST, PUT, DELETE, GET",
+                        "Access-Control-Request-Method": "*",
+                        "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+                    }),
+                    body: formBody,
+                    cache: "no-cache",
+                });
+
+                if (!response.ok) {
+                    const message = `An error has occured: ${response.status}`;
+                    throw new Error(message);
+                }
+
+                return await response.json();
+            } catch (error) {
+                console.log("Fetch error: ", error);
+
+            }
+        }
+
+        document.forms.letsPlanForm?.addEventListener('submit', (event) => {
+            event.preventDefault()
+
+            Swal.fire({
+                title: 'Please Wait!',
+                text: 'Your request is currently being processed.',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading()
+                }
+            });
+
+
+            let formData = new FormData(document.querySelector('#letsPlanForm'))
+            formData.set('totalWatts', document.getElementById('overallWattsValue').innerText.split(' ')[0])
+            formData.set('hours_of_light', document.getElementById('hoursOfBackup').value.toString())
+            formData.set('percentage_capacity', document.getElementById('averageConsumptionPercentage').innerText)
+            postForm('https://elhadjseck.com/luminous-load-calculator/inverter-form-v2.php', formData).then((resp) => {
+                Swal.close();
+
+                if (resp?.status == true) {
+                    Swal.fire({
+                        title: 'Successful!',
+                        text: 'We appreciate you taking the time to complete this form, and we will get in touch with you as soon as we can.',
+                        icon: 'success',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Oh Sorry!',
+                        text: 'There appeared to be a problem while processing your request; try again',
+                        footer: 'Please refresh your browser',
+                        icon: 'erorr',
+                        confirmButtonText: 'Return',
+                        confirmButtonColor: "#d33",
+                        allowOutsideClick: false,
+                        allowEscapeKey: false
+                    });
+                }
+            })
+
+            // document.querySelector(".card-container").style.display = 'none'
+            // document.getElementById('plan-loader').style.display = 'block'
+            // document.getElementById('plan-loader').style.visibility = 'visible'
+
+            // setTimeout(() => {
+            //     document.getElementById('plan-loader').style.display = 'none'
+            //     document.querySelector(".card-container").style.display = 'block'
+            // }, 2000)
+
+            // const owv = Number(overallWattsValue.innerText.split(' ')[0])
+            // const energyRequirement = owv * Number(hoursOfBackup.value)
+            // const acp = Number(document.getElementById('averageConsumptionPercentage').innerText.split(' ')[0]) / 100
+            // const srla = energyRequirement * acp
+
+            // for (i in inverters) {
+            //     if (srla < inverters[i]) {
+            //         document.getElementById('totalCapacityValue').innerText = `${Math.round(srla)} Watts`
+            //         document.getElementById('inverterName').innerText = invertersInverted[inverters[i]].name
+            //         document.getElementById('numBatteries').innerText = `${Number(invertersInverted[inverters[i]].volts) / 12} batteries`
+            //         document.getElementById('inverterImage').src = invertersInverted[inverters[i]].image
+            //         break
+            //     }
+            // }
+
+        })
+
+
+
+
+    </script>
+</body>
+
+</html>
