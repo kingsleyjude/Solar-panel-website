@@ -16116,7 +16116,8 @@ nav ul li a {
   content: "\f078" !important;
   position: absolute !important;
   top: 50%;
-  font-family: "Font Awesome 5 Pro" !important;
+  font-family: "Font Awesome 5 free" !important;
+  font-weight: 900 !important;
   right: -3px;
   transform: translateY(-50%);
   transition: 0.3s;
