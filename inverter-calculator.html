@@ -26,10 +26,7 @@
     />
     <link href="assets/images/logo/logo.png" rel="apple-touch-icon" />
 
-    <!-- <link
-      rel="stylesheet"
-      href="assets/css/bootstrap-5.0.2-dist/css/bootstrap.min.css"
-    /> -->
+    
 
         <!-- <link rel="stylesheet" href="assets/css/style.css" /> -->
         <link rel="stylesheet" href="assets/css/index.css" />
@@ -114,12 +111,6 @@
     
         @media (max-width: 600px) {
 
-          body{
-            margin: auto;
-            /* width: 80%; */
-            background-color: aqua;
-          }
-           
     
             .first-container {
             height: 820px !important;
@@ -169,6 +160,8 @@
                 /* width: 100%; */
             }
     
+
+    
         }
         </style>
 
@@ -184,6 +177,7 @@
         type="text/javascript">window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'UA-129058154-2', { 'anonymize_ip': false });</script>
     <script
         type="text/javascript">!function (f, b, e, v, n, t, s) { if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments) }; if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0'; n.agent = 'plwebflow'; n.queue = []; t = b.createElement(e); t.async = !0; t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s) }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js'); fbq('init', '2384766771617767'); fbq('track', 'PageView');</script>
+
     <html lang="en">
 
     <!-- Google tag (gtag.js) -->
@@ -242,7 +236,7 @@
                             <div data-hover="true" data-delay="0" data-w-id="75f7e088-5639-7674-842d-ea9a9390b59d"
                                 class="dropdown-header w-dropdown">
                                 <div class="nav-link dropdown w-dropdown-toggle">
-                                    <div style="font-weight: bold;" class="dropdown-text">GET QUOTE <span
+                                    <div class="dropdown-text">GET QUOTE <span
                                             class="icon-header-dropdown"></span>
                                     </div>
                                     <div class="dropdown-button-affiliate header-button">
@@ -269,13 +263,6 @@
                                                         class="drop-link w-inline-block">
                                                         <div class="drop-text">
                                                             <div class="text-block-3">Solar Panel Calculator</div>
-                                                        </div>
-                                                    </a>
-
-                                                     <a href="/testing.html"
-                                                        class="drop-link w-inline-block">
-                                                        <div class="drop-text">
-                                                            <div class="text-block-3"> Calculator</div>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -305,12 +292,9 @@
             </div>
         </div>
     </div>
-    <div class="w-embed w-iframe">
-        <!-- <div class="container"> -->
-            <!-- <iframe class="responsive-iframe"
-                src="https://simbainfra.com/wp-content/calculator/luminous-load-calculator/index.html"
-                frameborder="0"></iframe> -->
-
+    <!-- <div class="w-embed w-iframe">
+         <div class="container">  -->
+             
                 <div class="first-container" style="background-color: #0f57ad; height: 400px;">
 
         <div class="lg-text-headline tw-text-center" style="color: white; padding-top: .5rem">Enter the appliance your inverter will power
@@ -640,7 +624,7 @@
             <div
                 class="percentage-container tw-flex-col tw-flex tw-max-w-3xl tw-w-full tw-mx-auto tw-p-4 tw-px-8 tw-pb-8 tw-place-self-center tw-justify-self-center">
                 <div class="tw-flex tw-flex-row tw-items-center tw-gap-x-2 tw-relative">
-                    <div class="tw-flex-none">Estimate the average % of appliance capacity running simultaneously </div>
+                    <div class="tw-flex">Estimate the average % of appliance capacity running simultaneously </div>
                     <div class="tw-h-4" data-headlessui-state=""><button type="button" class="border-none"
                             aria-expanded="false" data-headlessui-state="" fdprocessedid="tl2vqb"
                             id="headlessui-popover-button-:R59r935:"><svg xmlns="http://www.w3.org/2000/svg"
@@ -803,25 +787,7 @@ document.forms.letsPlanForm?.addEventListener('submit', (event) => {
     const form = document.querySelector('#letsPlanForm');
     const formData = new FormData(form);
 
-    // Add extra hidden inputs before sending
-// const totalWatts = document.createElement('input');
-// totalWatts.type = 'hidden';
-// totalWatts.name = 'totalWatts';
-// totalWatts.value = document.getElementById('overallWattsValue').innerText.split(' ')[0];
-// form.appendChild(totalWatts);
-
-// const hoursOfLight = document.createElement('input');
-// hoursOfLight.type = 'hidden';
-// hoursOfLight.name = 'hours_of_light';
-// hoursOfLight.value = document.getElementById('hoursOfBackup').value;
-// form.appendChild(hoursOfLight);
-
-// const percentageCapacity = document.createElement('input');
-// percentageCapacity.type = 'hidden';
-// percentageCapacity.name = 'percentage_capacity';
-// percentageCapacity.value = document.getElementById('averageConsumptionPercentage').innerText;
-// form.appendChild(percentageCapacity);
-
+   
 const formObject = {};
 formData.forEach((value, key) => {
   formObject[key] = value.toString();
@@ -840,43 +806,46 @@ formObject.percentage_capacity = document.getElementById('averageConsumptionPerc
     // formData.set('percentage_capacity', document.getElementById('averageConsumptionPercentage').innerText);
 
     
-     emailjs.send('service_48gmbxm', 'template_fz1b6tw', formObject)
+     emailjs.send('service_ncbc92u', 'template_1i11np2', formObject)
     .then(function(response) {
-        console.log('SUCCESS!', response.status, response.text);
-        Swal.close();
+        // console.log('SUCCESS!', response.status, response.text);
         Swal.fire('Successful!', 'Your request was sent successfully.', 'success');
+        // Swal.close();
+        setTimeout(() => {
+                 window.location.reload();   
+        }, 4000);
     }, function(error) {
         Swal.close();
         Swal.fire('Error!', 'Something went wrong. Please try again.', 'error');
     });
-});
 
 
-            // document.querySelector(".card-container").style.display = 'none'
-            // document.getElementById('plan-loader').style.display = 'block'
-            // document.getElementById('plan-loader').style.visibility = 'visible'
 
-            // setTimeout(() => {
-            //     document.getElementById('plan-loader').style.display = 'none'
-            //     document.querySelector(".card-container").style.display = 'block'
-            // }, 2000)
+            document.querySelector(".card-container").style.display = 'none'
+            document.getElementById('plan-loader').style.display = 'block'
+            document.getElementById('plan-loader').style.visibility = 'visible'
 
-            // const owv = Number(overallWattsValue.innerText.split(' ')[0])
-            // const energyRequirement = owv * Number(hoursOfBackup.value)
-            // const acp = Number(document.getElementById('averageConsumptionPercentage').innerText.split(' ')[0]) / 100
-            // const srla = energyRequirement * acp
+            setTimeout(() => {
+                document.getElementById('plan-loader').style.display = 'none'
+                document.querySelector(".card-container").style.display = 'block'
+            }, 2000)
 
-            // for (i in inverters) {
-            //     if (srla < inverters[i]) {
-            //         document.getElementById('totalCapacityValue').innerText = `${Math.round(srla)} Watts`
-            //         document.getElementById('inverterName').innerText = invertersInverted[inverters[i]].name
-            //         document.getElementById('numBatteries').innerText = `${Number(invertersInverted[inverters[i]].volts) / 12} batteries`
-            //         document.getElementById('inverterImage').src = invertersInverted[inverters[i]].image
-            //         break
-            //     }
-            // }
+            const owv = Number(overallWattsValue.innerText.split(' ')[0])
+            const energyRequirement = owv * Number(hoursOfBackup.value)
+            const acp = Number(document.getElementById('averageConsumptionPercentage').innerText.split(' ')[0]) / 100
+            const srla = energyRequirement * acp
 
-    
+            for (i in inverters) {
+                if (srla < inverters[i]) {
+                    document.getElementById('totalCapacityValue').innerText = `${Math.round(srla)} Watts`
+                    document.getElementById('inverterName').innerText = invertersInverted[inverters[i]].name
+                    document.getElementById('numBatteries').innerText = `${Number(invertersInverted[inverters[i]].volts) / 12} batteries`
+                    document.getElementById('inverterImage').src = invertersInverted[inverters[i]].image
+                    break
+                }
+            }
+
+    });
 
 
 
