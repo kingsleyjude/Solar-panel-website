@@ -15577,7 +15577,7 @@ header.header-four .header-right .action-button-menu #menu-btn {
 .mobile-menu-main nav ul li.has-droupdown::after {
   position: absolute;
   content: "\f078";
-  font-family: "Font Awesome 6 pro" !important;
+  font-family: "Font Awesome 6 free" !important;
   font-size: 16px;
   right: 0;
   font-weight: 400;
@@ -15640,7 +15640,7 @@ header.header-four .header-right .action-button-menu #menu-btn {
 .header-one .main-nav-desk nav ul li.has-droupdown .submenu.inner-page .sub-dropdown::after {
   position: absolute;
   content: "\f105";
-  font-family: "Font Awesome 6 Pro" !important;
+  font-family: "Font Awesome 6 free" !important;
   font-size: 16px;
   right: 25px;
   top: 50%;
@@ -15663,7 +15663,7 @@ header.header-four .header-right .action-button-menu #menu-btn {
 .header-three .main-nav-desk nav ul li.has-droupdown .submenu.inner-page .sub-dropdown::after {
   position: absolute;
   content: "\f105";
-  font-family: "Font Awesome 6 Pro" !important;
+  font-family: "Font Awesome 6 free" !important;
   font-size: 16px;
   right: 25px;
   top: 50%;
@@ -15748,7 +15748,7 @@ header.heder-two .sub-dropdown:hover .submenu.third-lvl.base {
 header.heder-two .sub-dropdown::after {
   position: absolute;
   content: "\f105";
-  font-family: "Font Awesome 6 Pro" !important;
+  font-family: "Font Awesome 6 free" !important;
   font-size: 16px;
   right: 20px;
   top: 8px;
@@ -15775,7 +15775,7 @@ header.header-three .sub-dropdown:hover .submenu.third-lvl.base {
 header.header-three .sub-dropdown::after {
   position: absolute;
   content: "\f105";
-  font-family: "Font Awesome 6 Pro" !important;
+  font-family: "Font Awesome 6 free" !important;
   font-size: 16px;
   right: 10px;
   top: 50%;
@@ -16116,7 +16116,7 @@ nav ul li a {
   content: "\f078" !important;
   position: absolute !important;
   top: 50%;
-  font-family: "Font Awesome 5 free" !important;
+  font-family: "Font Awesome 6 free" !important;
   font-weight: 900 !important;
   right: -3px;
   transform: translateY(-50%);
@@ -24489,7 +24489,7 @@ p {
   top: 40px;
   transform: translate(-50%, 0);
   content: "\f10d";
-  font-family: "Font Awesome 5 Pro";
+  font-family: "Font Awesome 5 free";
   width: 60px;
   height: 60px;
   line-height: 60px;
