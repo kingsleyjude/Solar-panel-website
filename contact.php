@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Email settings
-    $to = "cosmasemmanuel40@gmail.com";  // <<< Replace with your real email
+    $to = "hello@techbrandexng.com";  // <<< Replace with your real email
     $email_subject = "New Contact Form Message: $subject";
     $email_body = "Name: $name\n";
     $email_body .= "Email: $email\n";
