@@ -22,28 +22,29 @@
             data: formData
         })
             .done(function (response) {
-                // Make sure that the formMessages div has the 'success' class.
-                $(formMessages).removeClass('error');
-                $(formMessages).addClass('success');
 
-                // Set the message text.
-                $(formMessages).text(response);
+                // SweetAlert Success popup
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Message Sent!',
+                    text: response,
+                    confirmButtonColor: '#3085d6'
+                });
 
-                // Clear the form.
-                $('#name, #email, #subject, #message').val('');
+                // Clear the form
+                $(form)[0].reset();
+
+
             })
             .fail(function (data) {
-                console.log("the data", data)
-                // Make sure that the formMessages div has the 'error' class.
-                $(formMessages).removeClass('success');
-                $(formMessages).addClass('error');
+                // SweetAlert Error popup
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops!',
+                    text: data.responseText !== '' ? data.responseText : 'An error occurred. Please try again.',
+                    confirmButtonColor: '#d33'
+                });
 
-                // Set the message text.
-                if (data.responseText !== '') {
-                    $(formMessages).text(data.responseText);
-                } else {
-                    $(formMessages).text('Oops! An error occured and your message could not be sent.');
-                }
             });
     });
 
