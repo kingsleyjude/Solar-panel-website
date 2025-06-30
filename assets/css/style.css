@@ -23830,8 +23830,10 @@ p {
   display: block;
   overflow: hidden;
   border-radius: 10px;
+  height: 400px;
 }
 .single-case-ac .thumbnail img {
+  height: 400px;
   transition: 0.3s;
 }
 .single-case-ac .thumbnail:hover img {
