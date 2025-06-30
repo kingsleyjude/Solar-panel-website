@@ -17,10 +17,10 @@
 
         // Submit the form using AJAX.
         $.ajax({
-                type: 'POST',
-                url: $(form).attr('action'),
-                data: formData
-            })
+            type: 'POST',
+            url: $(form).attr('action'),
+            data: formData
+        })
             .done(function (response) {
                 // Make sure that the formMessages div has the 'success' class.
                 $(formMessages).removeClass('error');
@@ -33,6 +33,7 @@
                 $('#name, #email, #subject, #message').val('');
             })
             .fail(function (data) {
+                console.log("the data", data)
                 // Make sure that the formMessages div has the 'error' class.
                 $(formMessages).removeClass('success');
                 $(formMessages).addClass('error');
